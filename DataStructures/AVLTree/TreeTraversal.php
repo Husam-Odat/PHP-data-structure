@@ -15,6 +15,7 @@ abstract class TreeTraversal
     /**
      * Perform an in-order traversal of the subtree.
      * Recursively traverses the subtree rooted at the given node.
+     * The in-order traversal is left -> root -> right.
      */
     public static function inOrder(?AVLTreeNode $node): array
     {
@@ -30,6 +31,7 @@ abstract class TreeTraversal
     /**
      * Perform a pre-order traversal of the subtree.
      * Recursively traverses the subtree rooted at the given node.
+     * The pre-order traversal is root -> left -> right.
      */
     public static function preOrder(?AVLTreeNode $node): array
     {
@@ -45,6 +47,7 @@ abstract class TreeTraversal
     /**
      * Perform a post-order traversal of the subtree.
      * Recursively traverses the subtree rooted at the given node.
+     * The post-order traversal is left -> right -> root.         
      */
     public static function postOrder(?AVLTreeNode $node): array
     {
@@ -59,6 +62,7 @@ abstract class TreeTraversal
 
     /**
      * Perform a breadth-first traversal of the AVL Tree.
+     * The breadth-first traversal visits all nodes level by level.
      */
     public static function breadthFirst(?AVLTreeNode $root): array
     {
@@ -84,5 +88,47 @@ abstract class TreeTraversal
         }
 
         return $result;
+    }
+
+    //add to this draw the tree 
+    public static function drawTree0(?AVLTreeNode $root, $level = 0)
+    {
+        if ($root !== null) {
+            self::drawTree0($root->right, $level + 1);
+            echo str_repeat("    ", $level) . $root->key . "\n";
+            self::drawTree0($root->left, $level + 1);
+        }
+    }
+
+
+    public static function drawTree(?AVLTreeNode $root, $level = 0, $prefix = "")
+    {
+        if ($root !== null) {
+            self::drawTree($root->right, $level + 1, $prefix . "    ");
+
+            if ($level > 0) {
+                echo $prefix . "|";
+            }
+            echo $root->key . "\n";
+
+            self::drawTree($root->left, $level + 1, $prefix . "    ");
+        }
+    }
+
+    public static function printTree($node, $level = 0, $method, $instancetree)
+    {
+        echo ($method) .  "  ";
+        echo ($method == 'inOrder') ? '(left -> root -> right)' : '';
+        echo ($method == 'preOrder') ? '(root -> left -> right)' : '';
+        echo ($method == 'postOrder') ? '(left -> right -> root)' : '';
+        echo ($method == 'breadthFirst') ? '(all nodes level by level)' : '';
+        echo  PHP_EOL;
+        $result = self::$method($instancetree->getRoot());
+        foreach ($result as $item) {
+            foreach ($item as $key => $value) {
+                echo "[$key] => $value ";
+            }
+        }
+        echo  PHP_EOL;
     }
 }
