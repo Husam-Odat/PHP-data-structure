@@ -34,6 +34,8 @@ echo PHP_EOL;
 echo PHP_EOL;
 TreeTraversal::drawTree($avlTree->getRoot());
 
+print_r($avlTree->serialize());
+// TreeTraversal::serializeTree($avlTree->getRoot());
 // $avlTree = new AVLTreeTest();
 // $avlTree->setUp();
 // $avlTree->populateTree();
